@@ -1,7 +1,7 @@
 import { MongodbService } from 'src/mongodb/mongodb.service';
 import { RegisterDto } from '../dto/register.dto';
 import { verify } from 'crypto';
-import { adminAuth } from 'src/lib/firebase';
+import { auth } from 'src/lib/admin';
 
 export const registerUser = async (dto: RegisterDto, db: MongodbService) => {
   try {
@@ -32,7 +32,7 @@ export const registerUser = async (dto: RegisterDto, db: MongodbService) => {
       throw new Error('Username already exists');
     }
 
-    const fbUser = await adminAuth.createUser({
+    const fbUser = await auth.createUser({
         email: lowerCaseEmail,
         emailVerified: false,
         password: dto.password,

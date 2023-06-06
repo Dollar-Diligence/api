@@ -6,6 +6,8 @@ import { getStorage } from 'firebase/storage';
 import admin from 'firebase-admin';
 import * as dotenv from 'dotenv';
 
+dotenv.config();
+
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
   authDomain: process.env.FIREBASE_AUTH_DOMAIN,
@@ -21,6 +23,5 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
-const adminAuth = admin.auth();
 
-export { auth, db, storage, adminAuth };
+export { auth, db, storage };
