@@ -9,7 +9,7 @@ import { loginUser } from './helpers/login';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly db: MongodbService) {}
+  constructor(private db: MongodbService) {}
   create(dto: RegisterDto) {
     return registerUser(dto, this.db);
   }
