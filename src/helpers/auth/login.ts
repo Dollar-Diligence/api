@@ -1,5 +1,5 @@
 import { MongodbService } from "src/mongodb/mongodb.service";
-import { LogInDto } from "../dto/log-in.dto";
+import { LogInDto } from "../../auth/dto/log-in.dto";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "src/lib/firebase";
 

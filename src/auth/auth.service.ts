@@ -3,8 +3,8 @@ import { MongodbService } from 'src/mongodb/mongodb.service';
 import { LogInDto } from './dto/log-in.dto';
 import { RegisterDto } from './dto/register.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
-import { loginUser } from './helpers/login';
-import { registerUser } from './helpers/register';
+import { loginUser } from '../helpers/auth/login';
+import { registerUser } from '../helpers/auth/register';
 
 @Injectable()
 export class AuthService {

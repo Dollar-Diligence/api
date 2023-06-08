@@ -1,7 +1,6 @@
 import { MongodbService } from 'src/mongodb/mongodb.service';
-import { RegisterDto } from '../dto/register.dto';
-import { verify } from 'crypto';
 import { auth } from 'src/lib/admin';
+import { RegisterDto } from 'src/auth/dto/register.dto';
 
 export const registerUser = async (dto: RegisterDto, db: MongodbService) => {
   try {
