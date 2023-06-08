@@ -11,7 +11,7 @@ dotenv.config();
       provide: 'MongoDbConnection',
       useFactory: async (): Promise<Db> => {
         const client = await MongoClient.connect(process.env.MONGO_DB_URL);
-        return client.db(process.env.MONGO_DB_NAME || 'development');
+        return client.db(process.env.MONGO_DB_NAME);
       },
     },
     MongodbService,

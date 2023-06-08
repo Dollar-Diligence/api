@@ -3,7 +3,7 @@ import { LogInDto } from "../dto/log-in.dto";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "src/lib/firebase";
 
-export const loginUser = async (dto: LogInDto, db: MongodbService) => {
+export const loginUser = async (dto: LogInDto) => {
     try
     {
         const user = await signInWithEmailAndPassword(auth, dto.email, dto.password);

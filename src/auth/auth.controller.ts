@@ -12,6 +12,7 @@ import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { RegisterDto } from './dto/register.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { LogInDto } from './dto/log-in.dto';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -28,7 +29,7 @@ export class AuthController {
   }
 
   @Post('/login')
-  login(@Body() dto: RegisterDto) {
+  login(@Body() dto: LogInDto) {
     try {
       return this.authService.login(dto);
     } catch (e) {
