@@ -6,12 +6,12 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+
 import { RegisterDto } from './dto/register.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { LogInDto } from './dto/log-in.dto';
 
 @Controller('auth')
@@ -37,24 +37,20 @@ export class AuthController {
     }
   }
 
-  
-  @Get()
-  findAll() {
-    return this.authService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authService.remove(+id);
+  @Get('')
+  @ApiQuery({ name: 'limit', required: false })
+  @ApiQuery({ name: 'skip', required: false })
+  @ApiQuery({ name: 'sort', required: false })
+  async findAll(
+    @Query('limit') limit: number,
+    @Query('skip') skip: number,
+    @Query('sort') sort: string,
+  ) {
+    const options = {
+      limit: limit ? +limit : 10,
+      skip: skip ? +skip : 0,
+      sort: sort ? sort : `{ "createdAt": -1 }`,
+    };
+    return this.authService.findAll(options);
   }
 }
