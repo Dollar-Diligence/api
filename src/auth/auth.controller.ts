@@ -7,12 +7,16 @@ import {
   Param,
   Delete,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 
 import { RegisterDto } from './dto/register.dto';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { LogInDto } from './dto/log-in.dto';
+import { User } from 'src/decorators/user.decorator';
+import { RolesGuard } from './guards/roles.guard';
+import { Roles } from 'src/decorators/roles.decorator';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -41,16 +45,18 @@ export class AuthController {
   @ApiQuery({ name: 'limit', required: false })
   @ApiQuery({ name: 'skip', required: false })
   @ApiQuery({ name: 'sort', required: false })
+  @Roles('admin')
   async findAll(
     @Query('limit') limit: number,
     @Query('skip') skip: number,
     @Query('sort') sort: string,
+    @User() user,
   ) {
     const options = {
       limit: limit ? +limit : 10,
       skip: skip ? +skip : 0,
       sort: sort ? sort : `{ "createdAt": -1 }`,
     };
-    return this.authService.findAll(options);
+    return this.authService.findAll(user, options);
   }
 }

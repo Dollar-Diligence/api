@@ -4,6 +4,8 @@ import { LogInDto } from './dto/log-in.dto';
 import { RegisterDto } from './dto/register.dto';
 import { loginUser } from '../helpers/auth/login';
 import { registerUser } from '../helpers/auth/register';
+import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
+import hasRoles from 'src/helpers/haRoles';
 
 @Injectable()
 export class AuthService {
@@ -18,7 +20,12 @@ export class AuthService {
   }
 
   
-  async findAll(options: { limit: number; skip: number; sort: string }) {
+  async findAll(user: DecodedIdToken, options: { limit: number; skip: number; sort: string }) {
+    const isAdmin = hasRoles(user, ['admin']);
+    if (!isAdmin) {
+      throw new Error('You are not allowed to perform this action');
+    }
+
     let filter = {};
 
     const LIMIT = options.limit > 100 ? 100 : options.limit;
