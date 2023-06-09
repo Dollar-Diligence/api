@@ -1,4 +1,4 @@
-import { Controller, Param, Post, Query} from '@nestjs/common';
+import { Controller, Get, Param, Post, Query} from '@nestjs/common';
 import { RolesService } from './roles.service';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 
@@ -25,12 +25,10 @@ export class RolesController {
     return await this.rolesService.removeRole(uid, role);
   }
 
-  @Post(':uid/has')
-  @ApiQuery({ name: 'role', required: true })
+  @Get(':uid/has')
   async fetchRoles(
     @Param('uid') uid: string,
-    @Query('role') role: string,
   ) {
-    return await this.rolesService.fetchRoles(uid, role);
+    return await this.rolesService.fetchRoles(uid);
   }
 }

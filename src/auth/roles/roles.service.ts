@@ -92,15 +92,13 @@ export class RolesService {
     };
   }
 
-  async fetchRoles(uid: string, role: string) {
+  async fetchRoles(uid: string) {
     const user = await auth.getUser(uid);
     const currentClaims = user.customClaims || {};
-
-    // check if role is valid
-    if (!isAllowed(role)) {
+    if (!currentClaims.roles) {
       throw new HttpException(
         {
-          message: role, 'is not a valid role': 'valid roles are: admin',
+          message: 'User has no roles',
         },
         400,
       );
@@ -108,7 +106,7 @@ export class RolesService {
 
     return {
       message: 'Role fetched',
-      hasRole: currentClaims.roles && currentClaims.roles.includes(role),
+      hasRole: currentClaims.roles
     };
   }
 }
