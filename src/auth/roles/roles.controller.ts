@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Query} from '@nestjs/common';
+import { Controller, Delete, Get, Param, Post, Query} from '@nestjs/common';
 import { RolesService } from './roles.service';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 
@@ -16,7 +16,7 @@ export class RolesController {
     return await this.rolesService.addRole(uid, role);
   }
 
-  @Post(':uid/remove')
+  @Delete(':uid/remove')
   @ApiQuery({ name: 'role', required: true })
   async removeRole(
     @Param('uid') uid: string,
