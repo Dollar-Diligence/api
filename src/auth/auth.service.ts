@@ -23,9 +23,8 @@ export class AuthService {
   async findAll(user: DecodedIdToken, options: { limit: number; skip: number; sort: string }) {
     const isAdmin = hasRoles(user, ['admin']);
     if (!isAdmin) {
-      throw new Error('You are not allowed to perform this action');
+      throw new Error('Not allowed');
     }
-
     let filter = {};
 
     const LIMIT = options.limit > 100 ? 100 : options.limit;

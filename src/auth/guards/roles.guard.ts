@@ -49,7 +49,7 @@ export class RolesGuard implements CanActivate {
       return await auth.verifyIdToken(token);
     } catch (error) {
       console.error('Token validation error:', error);
-      return null;
+      return false;
     }
   }
 
