@@ -17,6 +17,7 @@ import { LogInDto } from './dto/log-in.dto';
 import { User } from 'src/decorators/user.decorator';
 import { RolesGuard } from './guards/roles.guard';
 import { Roles } from 'src/decorators/roles.decorator';
+import { Public } from 'src/decorators/public.decorator';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -24,6 +25,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('/register')
+  @Public()
   create(@Body() dto: RegisterDto) {
     try {
       return this.authService.create(dto);
@@ -33,6 +35,7 @@ export class AuthController {
   }
 
   @Post('/login')
+  @Public()
   login(@Body() dto: LogInDto) {
     try {
       return this.authService.login(dto);

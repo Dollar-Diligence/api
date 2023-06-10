@@ -1,11 +1,22 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
+import * as admin from 'firebase-admin';
 
-export const User = createParamDecorator<
-  unknown,
-  ExecutionContext,
-  DecodedIdToken
->((ctx: ExecutionContext) => {
-  const request = ctx.switchToHttp().getRequest();
-  return request.user;
-});
+export const User = createParamDecorator(
+  (data: unknown, ctx: ExecutionContext): Promise<any> => {
+    const request = ctx.switchToHttp().getRequest();
+    const token = request.headers.authorization?.split('Bearer ')[1];
+
+    if (!token) {
+      return null;
+    }
+
+    // Wrap user into a Promise
+    return new Promise((resolve, reject) => {
+      admin
+        .auth()
+        .verifyIdToken(token)
+        .then((decodedToken) => resolve(decodedToken))
+        .catch((error) => reject(error));
+    });
+  },
+);
